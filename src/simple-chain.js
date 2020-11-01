@@ -1,18 +1,28 @@
 const chainMaker = {
+  links: [],
   getLength() {
-    return this.length;
+    return this.links.length;
   },
   addLink(value) {
-    return '( ' + value + ' )'+ '~~';
+    this.links.push(`( ${value} )`);
+    return this;
   },
   removeLink(position) {
-    this.slice(position);
+    if (position > this.links.length || position <= 0 || Number.isNaN(+position)) {
+      this.links = [];
+      throw new Error();
+    }
+    this.links.splice(position - 1, 1);
+    return this;
   },
   reverseChain() {
-    this.reverse();
+    this.links = this.links.reverse();
+    return this;
   },
   finishChain() {
-    return this;
+    const result = this.links.join('~~');
+    this.links = [];
+    return result;
   }
 };
 
